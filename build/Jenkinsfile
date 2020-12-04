@@ -7,7 +7,8 @@ pipeline {
             }
             steps {
                 sh '''
-                    make setup
+                    echo "jenkins sucks that much..."
+                    #make setup
                 '''
             }
         }
@@ -16,6 +17,7 @@ pipeline {
                 docker { image 'python:3.7.3-stretch' }
             }
             steps {
+                sh 'make setup'
                 sh '. ./venv/bin/activate'
                 sh 'make install'
             }
