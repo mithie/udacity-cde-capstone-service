@@ -25,7 +25,9 @@ pipeline {
             }
             steps {
                 script {
-                    venv('make lint')
+                    withEnv(['PYLINTHOME=.']) {
+                        venv('make lint')
+                    }
                 }
             }
         }
