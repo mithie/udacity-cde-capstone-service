@@ -2,8 +2,8 @@ setup:
 	python -m venv venv
 
 install:
-	pip -m install --upgrade pip && \
-	pip -m install -r requirements.txt
+	pip install -m --upgrade pip && \
+	pip install -m -r requirements.txt
 
 lint:
 	#hadolint Dockerfile
