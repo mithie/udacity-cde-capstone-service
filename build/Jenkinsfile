@@ -8,7 +8,7 @@ pipeline {
             steps {
                 sh '''
                     echo "jenkins sucks that much..."
-                    #make setup
+                    make setup
                 '''
             }
         }
