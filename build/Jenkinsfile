@@ -17,8 +17,10 @@ pipeline {
                 docker { image 'python:3.7.3-stretch' }
             }
             steps {
-                sh 'make setup'
-                sh 'source ./venv/bin/activate && pip install --upgrade pip'
+                sh '''
+                    source ./venv/bin/activate
+                    make install
+                '''
             }
         }
         stage('lint python code') {
@@ -26,8 +28,10 @@ pipeline {
                 docker { image 'python:3.7.3-stretch' }
             }
             steps {
-                sh '. ./venv/bin/activate'
-                sh 'make lint'
+                sh '''
+                    source ./venv/bin/activate'
+                    make lint
+                '''
             }
         }
     }
