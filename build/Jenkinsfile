@@ -18,7 +18,7 @@ pipeline {
             }
             steps {
                 sh 'make setup'
-                sh '. ./venv/bin/activate'
+                sh 'source ./venv/bin/activate'
                 sh 'make install'
             }
         }
