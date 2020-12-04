@@ -8,7 +8,6 @@ pipeline {
             steps {
                 sh '''
                     make setup
-                    . ./venv/bin/activate
                 '''
             }
         }
@@ -16,10 +15,8 @@ pipeline {
             agent {
                 docker { image 'python:3.7.3-stretch' }
             }
-            environment {
-                HOME = '.'
-            }
             steps {
+                sh '. ./venv/bin/activate'
                 sh 'make install'
             }
         }
@@ -27,10 +24,8 @@ pipeline {
             agent {
                 docker { image 'python:3.7.3-stretch' }
             }
-            environment {
-                HOME = '.'
-            }
             steps {
+                sh '. ./venv/bin/activate'
                 sh 'make lint'
             }
         }
