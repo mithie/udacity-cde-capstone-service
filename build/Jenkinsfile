@@ -8,7 +8,7 @@ pipeline {
             steps {
                 sh '''
                     make setup
-                    source ~/.udacity-cde-capstone-service/bin/activate
+                    source ./venv/bin/activate
                 '''
             }
         }
