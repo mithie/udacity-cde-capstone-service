@@ -16,6 +16,9 @@ pipeline {
             agent {
                 docker { image 'python:3.7.3-stretch' }
             }
+            environment {
+                HOME = '.'
+            }
             steps {
                 sh 'make install'
             }
@@ -23,6 +26,9 @@ pipeline {
         stage('lint python code') {
             agent {
                 docker { image 'python:3.7.3-stretch' }
+            }
+            environment {
+                HOME = '.'
             }
             steps {
                 sh 'make lint'
