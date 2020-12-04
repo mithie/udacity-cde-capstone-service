@@ -12,5 +12,21 @@ pipeline {
                 '''
             }
         }
+        stage('install dependencies') {
+            agent {
+                docker { image 'python:3.7.3-stretch' }
+            }
+            steps {
+                sh 'make install'
+            }
+        }
+        stage('lint python code') {
+            agent {
+                docker { image 'python:3.7.3-stretch' }
+            }
+            steps {
+                sh 'make lint'
+            }
+        }
     }
 }
