@@ -1,9 +1,15 @@
 pipeline {
     agent any 
     stages {
-        stage('test') {
+        stage('setup') {
+            agent {
+                docker { image 'python:3.7.3-stretch' }
+            }
             steps {
-                echo 'Hello world!' 
+                sh '''
+                    make setup
+                    source ~/.udacity-cde-capstone-service/bin/activate
+                '''
             }
         }
     }
