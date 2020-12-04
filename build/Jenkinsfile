@@ -6,10 +6,7 @@ pipeline {
                 docker { image 'python:3.7.3-stretch' }
             }
             steps {
-                sh '''
-                    echo "jenkins sucks that much..."
-                    make setup
-                '''
+                sh 'make setup'
             }
         }
         stage('install dependencies') {
@@ -17,10 +14,7 @@ pipeline {
                 docker { image 'python:3.7.3-stretch' }
             }
             steps {
-                sh '''
-                    source ./venv/bin/activate
-                    make install
-                '''
+                sh 'venv(make install)'
             }
         }
         stage('lint python code') {
@@ -28,11 +22,12 @@ pipeline {
                 docker { image 'python:3.7.3-stretch' }
             }
             steps {
-                sh '''
-                    source ./venv/bin/activate
-                    make lint
-                '''
+                sh 'venv(make lint)'
             }
         }
     }
+}
+
+def venv(String script) {
+    sh "source venv/bin/activate && " + script
 }
