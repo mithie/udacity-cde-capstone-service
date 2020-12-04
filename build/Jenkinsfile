@@ -18,8 +18,7 @@ pipeline {
             }
             steps {
                 sh 'make setup'
-                sh 'source ./venv/bin/activate'
-                sh 'make install'
+                sh 'source ./venv/bin/activate && pip install --upgrade pip'
             }
         }
         stage('lint python code') {
