@@ -36,7 +36,9 @@ pipeline {
                 docker { image 'hadolint/hadolint' }
             }
             steps {
-                sh 'make lint_docker'
+                withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) { 
+                    sh 'make lint_docker'
+                }
             }
         }
     }
