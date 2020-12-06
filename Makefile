@@ -5,8 +5,8 @@ setup:
 
 install:
 	# This should be run from inside a virtualenv
-	pip install --upgrade pip==20.3.1 && \
-	pip install -r requirements.txt
+	pip install --no-cache-dir --upgrade pip==20.3.1 && \
+	pip install --no-cache-dir -r requirements.txt
 
 lint_docker:
 	# This is a linter for Dockerfiles
