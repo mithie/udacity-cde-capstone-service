@@ -37,7 +37,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'make lint_docker'
+                    venv('make lint_docker')
                 }
             }
         }
