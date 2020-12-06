@@ -26,8 +26,18 @@ pipeline {
             steps {
                 script {
                     withEnv(['PYLINTHOME=.']) {
-                        venv('make lint')
+                        venv('make lint_python')
                     }
+                }
+            }
+        }
+        stage('lint Dockerfile') {
+            agent {
+                docker { image 'hadolint/hadolint' }
+            }
+            steps {
+                script {
+                    venv('make lint_docker')
                 }
             }
         }
