@@ -1,7 +1,13 @@
 pipeline {
-    agent any 
+    
+    agent any
+    
     stages {
-        stage('setup') {
+    
+        /**
+         * SETUP AND INSTALL PYTHON
+         */
+        stage('Setup Python Environment') {
             agent {
                 docker { image 'python:3.7.3-stretch' }
             }
@@ -9,7 +15,7 @@ pipeline {
                 sh 'make setup'
             }
         }
-        stage('install dependencies') {
+        stage('Install Dependencies') {
             agent {
                 docker { image 'python:3.7.3-stretch' }
             }
@@ -19,7 +25,11 @@ pipeline {
                 }
             }
         }
-        stage('lint python code') {
+        
+        /**
+         * LINT PYTHON AND DOCKER
+         */
+        stage('Lint Python') {
             agent {
                 docker { image 'python:3.7.3-stretch' }
             }
@@ -31,12 +41,28 @@ pipeline {
                 }
             }
         }
-        stage('lint Dockerfile') {
+        stage('Lint Dockerfile') {
             agent {
                 docker { image 'hadolint/hadolint' }
             }
             steps {
                 sh 'hadolint Dockerfile'
+            }
+        }
+        
+        /**
+         * BUILD AND PUSH DOCKERFILE
+         */
+        stage('Build Docker') {
+            steps {
+                sh '''
+                    dockerpath=mithie/capstone
+                    
+                    echo "building docker image with build number ${currentBuild.number}"
+                    docker build --tag=capstone:${currentBuild.number} .
+                    docker tag capstone:${currentBuild.number} $dockerpath:${currentBuild.number}
+                    docker push $dockerpath:${currentBuild.number}
+                '''
             }
         }
     }
