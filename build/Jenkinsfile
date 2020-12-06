@@ -36,9 +36,7 @@ pipeline {
                 docker { image 'hadolint/hadolint' }
             }
             steps {
-                script {
-                    venv('make lint_docker')
-                }
+                sh 'make lint_docker'
             }
         }
     }
