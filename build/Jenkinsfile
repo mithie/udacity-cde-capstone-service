@@ -2,6 +2,12 @@ pipeline {
     
     agent any
     
+    environment {
+        DOCKERPATH="mithie/capstone"
+        BUILD_VERSION_MAJOR="0"
+        BUILD_VERSION_MINOR="0"
+    }
+    
     stages {
     
         /**
@@ -54,15 +60,18 @@ pipeline {
          * BUILD AND PUSH DOCKERFILE
          */
         stage('Build Docker') {
+            environment {
+                BUILD_VERSION=buildVersion("${currentBuild.number}")
+            }
             steps {
-                sh '''
-                    dockerpath=mithie/capstone
-                    
-                    echo "building docker image with build number ${currentBuild.number}"
-                    docker build --tag=capstone:${currentBuild.number} .
-                    docker tag capstone:${currentBuild.number} $dockerpath:${currentBuild.number}
-                    docker push $dockerpath:${currentBuild.number}
-                '''
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
+                        echo "building docker image with build version ${BUILD_VERSION}"
+                        sh 'docker build --tag=capstone:${BUILD_VERSION} .'
+                        sh 'docker tag capstone:${BUILD_VERSION} $DOCKERPATH:${BUILD_VERSION}'
+                        sh 'docker push $DOCKERPATH:${BUILD_VERSION}'
+                    }
+                }
             }
         }
     }
@@ -70,4 +79,8 @@ pipeline {
 
 def venv(String script) {
     sh ". venv/bin/activate && " + script
+}
+
+def buildVersion(String buildNumber) {
+    return "v${BUILD_VERSION_MAJOR}.${BUILD_VERSION_MINOR}." + buildNumber
 }
