@@ -36,7 +36,7 @@ pipeline {
                 docker { image 'hadolint/hadolint' }
             }
             steps {
-                sh '/bin/bash make lint_docker'
+                sh 'make lint_docker'
             }
         }
     }
