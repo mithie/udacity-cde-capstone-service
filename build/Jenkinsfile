@@ -95,6 +95,25 @@ pipeline {
             }
         }
     }
+    post {
+        failure {
+            environment {
+                BUILD_VERSION=buildVersion("${lastSuccessfulBuildNumber}")
+            }        
+            withEnv(['PATH+EXTRA=/var/lib/jenkins/bin']) {
+                dir("deployment") {
+                    sh '''
+                        echo "performin rollback of deployment..."
+                        ytt -f . -v "image=$DOCKERPATH:${BUILD_VERSION}"  > deployment-rollback.yaml
+                        kubectl apply -f deployment-rollback.yaml
+                    '''
+                }
+            }
+        }
+        success {
+            echo "Deployment successful!"
+        }
+      }    
 }
 
 def venv(String script) {
@@ -104,3 +123,5 @@ def venv(String script) {
 def buildVersion(String buildNumber) {
     return "v${BUILD_VERSION_MAJOR}.${BUILD_VERSION_MINOR}." + buildNumber
 }
+
+def lastSuccessfulBuildNumber = Jenkins.instance.getItem("${env.JOB_NAME}").lastSuccessfulBuild.number
