@@ -102,7 +102,7 @@ pipeline {
                     script {
                         def lastSuccessBuildNumber = Jenkins.instance.getItem(env.JOB_NAME).lastSuccessfulBuild.number
                         sh '''
-                            echo "performin rollback of deployment..."
+                            echo "performin rollback of deployment to last seccesful build ${lastSuccessfulBuildNumber}..."
                             ytt -f . -v "image=$DOCKERPATH:${lastSuccessfulBuildNumber}"  > deployment-rollback.yaml
                             kubectl apply -f deployment-rollback.yaml
                         '''
