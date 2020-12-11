@@ -87,7 +87,7 @@ pipeline {
                     dir("deployment") {
                         sh '''
                             echo "performin rolling update on cluster..."
-                            ytt -f . -v "image=$DOCKERPATH:${BUILD_VERSION}"  > deployment-latest.yaml'
+                            ytt -f . -v "image=$DOCKERPATH:${BUILD_VERSION}"  > deployment-latest.yaml
                             kubectl apply -f deployment-latest.yaml
                         '''
                     }
