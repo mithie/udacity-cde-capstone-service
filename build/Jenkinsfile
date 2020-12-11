@@ -74,6 +74,26 @@ pipeline {
                 }
             }
         }
+        
+        /**
+         * Deploy to Kubernetes with rolling deployment strategy
+         */
+        stage(Deploy to Kubernetes') {
+            environment {
+                BUILD_VERSION=buildVersion("${currentBuild.number}")
+            }
+            steps {
+                withEnv(['PATH+EXTRA=/var/lib/jenkins/bin']) {
+                    dir("deployment") {
+                        sh '''
+                            echo "performin rolling update on cluster..."
+                            ytt -f . -v "image=$DOCKERPATH:${BUILD_VERSION}"  > deployment-latest.yaml'
+                            #kubectl apply -f deployment-latest.yaml
+                        '''
+                    }
+                }
+            }
+        }
     }
 }
 
