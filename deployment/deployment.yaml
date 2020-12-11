@@ -1,0 +1,31 @@
+#@ load("@ytt:data", "data")
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: capstone
+  namespace: udacity
+  labels:
+    app: capstone
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: capstone
+  template:
+    metadata:
+      labels:
+        app: capstone
+    spec:
+      containers:
+      - name: capstone
+        image: #@ data.values.image
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: regcred
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      
