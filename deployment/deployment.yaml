@@ -40,7 +40,7 @@ spec:
     app: capstone
   ports:
     - protocol: TCP
-      port: 8080
+      port: 80
       targetPort: 8080
       
 ---
@@ -58,4 +58,4 @@ spec:
           - path: /
             backend:
               serviceName: capstone-svc
-              servicePort: 8080
+              servicePort: 80
