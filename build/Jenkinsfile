@@ -101,7 +101,7 @@ pipeline {
                 dir("deployment") {
                     sh '''
                         echo "performin rollback of deployment..."
-                        ytt -f . -v "image=$DOCKERPATH:${lastSuccessfulBuildNumber}"  > deployment-rollback.yaml
+                        ytt -f . -v "image=$DOCKERPATH:lastSuccessfulBuildNumber"  > deployment-rollback.yaml
                         kubectl apply -f deployment-rollback.yaml
                     '''
                 }
