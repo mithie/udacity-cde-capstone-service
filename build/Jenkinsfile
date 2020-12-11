@@ -78,7 +78,7 @@ pipeline {
         /**
          * Deploy to Kubernetes with rolling deployment strategy
          */
-        stage(Deploy to Kubernetes') {
+        stage('Deploy to Kubernetes') {
             environment {
                 BUILD_VERSION=buildVersion("${currentBuild.number}")
             }

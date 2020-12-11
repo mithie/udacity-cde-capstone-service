@@ -28,4 +28,34 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 50%
+
+---      
+apiVersion: v1
+kind: Service
+metadata:
+  name: capstone-svc
+  namespace: udacity
+spec:
+  selector:
+    app: capstone
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
       
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: capstone-ing
+  namespace: udacity
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: capstone-svc
+              servicePort: 80
